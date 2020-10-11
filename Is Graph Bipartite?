@@ -1,0 +1,38 @@
+class Solution
+{
+public:
+  vector<bool> visited, col;
+  void bfs(int v, vector<vector<int>> &graph)
+  {
+    queue<int> q;
+    q.push(v);
+    visited[v] = true;
+    col[v] = true;
+    while (!q.empty())
+    {
+      auto fr = q.front();
+      q.pop();
+      for (auto vv : graph[fr])
+        if (!visited[vv])
+        {
+          visited[vv] = true;
+          col[vv] = !col[fr];
+          q.push(vv);
+        }
+    }
+  }
+  bool isBipartite(vector<vector<int>> &graph)
+  {
+    int N = graph.size();
+    visited.resize(N + 5), col.resize(N + 5);
+    bool ans = true;
+    for (int i = 0; i < graph.size(); ++i)
+      if (!visited[i])
+        bfs(i, graph);
+    for (int i = 0; i < graph.size(); ++i)
+      for (auto vv : graph[i])
+        if (col[i] == col[vv])
+          return false;
+    return true;
+  }
+};
