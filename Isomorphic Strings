@@ -1,0 +1,24 @@
+class Solution {
+public:
+    bool isIsomorphic(string s, string t) {
+        map<char,int> charCnt1,charCnt2,mappedLetter;
+        if(s.size()!=t.size())
+            return false;
+        bool ok=true;
+        for(auto c : s)
+            ++charCnt1[c];
+        for(auto c : t)
+            ++charCnt2[c];
+        for(int i=0 ; i<s.size() ; ++i){
+            if(charCnt1[s[i]]!=charCnt2[t[i]])
+                ok=false;
+            mappedLetter[s[i]]=t[i];
+        }
+        for(int i=0 ; i<s.size() ; ++i)
+            if(t[i]!=mappedLetter[s[i]])
+               ok=false;
+        return ok;
+    }
+};
+
+
