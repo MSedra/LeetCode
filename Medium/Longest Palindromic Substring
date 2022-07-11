@@ -1,0 +1,29 @@
+class Solution {
+    int longestFrom(string &s, int first, int second){
+        int result = second-first+1;
+        int l = first-1 , r = second+1;
+        while(l>=0 && r<s.size() && s[l]==s[r]){
+            --l,++r,result+=2;
+        }
+        return result;
+    }
+public:
+    string longestPalindrome(string s) {
+        int l,maxLength=0,result;
+        for(int i=0 ; i<s.size() ; ++i){
+            result = longestFrom(s,i,i);
+            if(result > maxLength){
+                maxLength = result;
+                l = i-result/2;
+            }
+            if(i && s[i]==s[i-1]){
+                result = longestFrom(s,i-1,i);
+                if(result > maxLength){
+                    maxLength = result;
+                    l = i-result/2;
+                }
+            }
+        }
+        return s.substr(l,maxLength);
+    }
+};
