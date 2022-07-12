@@ -1,0 +1,25 @@
+class Solution {
+public:
+    int lengthOfLongestSubstring(string s) {
+        if(s.empty())
+            return 0;
+        int initialPos = 0;
+        int maxLength = 1;
+        unordered_map<char,bool> exists;
+        exists[s[0]] = 1;
+        for(int i=1 ; i<=s.size() ; ++i)
+        {
+            if(i<s.size() && !exists[s[i]])
+                exists[s[i]] = 1;
+            else{
+                maxLength = max(maxLength,i-initialPos);
+                if(i==s.size())
+                    break;
+                while(s[initialPos]!=s[i])
+                    exists[s[initialPos++]] = 0;
+                initialPos++;
+            }
+        }
+        return maxLength;
+    }
+};
