@@ -1,0 +1,55 @@
+class Solution {
+    bool isLetter(char ch){
+        return (ch>='a' && ch<='z');
+    }
+    bool isDigit(char ch){
+        return (ch>='0' && ch<='9');
+    }
+    bool areSame(char first, char second){
+        return (isLetter(first) && isLetter(second)) || (isDigit(first) && isDigit(second));
+    }
+    void pushLettersString(string &str, stack<string> &st){
+        if(!st.empty() && isLetter(st.top()[0])){
+            string temp = st.top();
+            st.pop();
+            st.push(temp + str);
+        }
+        else 
+            st.push(str);
+    }
+    string repeat(string &str, int times){
+        string result = "";
+        while(times--)
+            result += str;
+        return result;
+    }
+public:
+    string decodeString(string s) {
+        stack<string> st;
+        int startingIndex;
+        string temp;
+        for(int i=0 ; i<s.size() ; ++i){
+            if(isLetter(s[i]) || isDigit(s[i])){
+                startingIndex = i++;
+                while(i<s.size() && areSame(s[i-1], s[i]))
+                    ++i;
+                temp = s.substr(startingIndex,i-startingIndex);
+                if(isLetter(s[startingIndex]))
+                    pushLettersString(temp, st);
+                else 
+                    st.push(temp);
+                --i;
+            }
+            else if(s[i]==']'){
+                string topString = st.top();
+                st.pop();
+                string topCount = st.top();
+                st.pop();
+                int topCountInt = stoi(topCount);
+                temp = repeat(topString, topCountInt);
+                pushLettersString(temp, st);
+            }
+        }
+        return st.top();
+    }
+};
