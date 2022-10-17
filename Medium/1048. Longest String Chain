@@ -1,0 +1,46 @@
+class Solution {
+    int n;
+    vector<string> allWords;
+    map<string,int> longestChainFrom;
+    
+    bool isValidTransition(int fromIndex, int toIndex){
+        int fromStrSize = allWords[fromIndex].size();
+        int toStrSize = allWords[toIndex].size();
+        if(fromStrSize+1!=toStrSize)
+            return 0;
+        if(allWords[toIndex].substr(0,toStrSize-1) == allWords[fromIndex])
+            return 1;
+        int fromStrInd = 0;
+        int toStrInd = 0;
+        while(fromStrInd < fromStrSize && toStrInd < toStrSize)
+            if(allWords[fromIndex][fromStrInd] == allWords[toIndex][toStrInd])
+                ++fromStrInd,++toStrInd;
+            else 
+                ++toStrInd;
+        return (fromStrInd == fromStrSize && toStrInd == toStrSize);
+    }
+    
+    int getLongestStrChain(int i){
+        string currentStr = allWords[i];
+        auto it = longestChainFrom.find(currentStr);
+        if(it!=longestChainFrom.end())
+            return it->second;
+        int longest = 1;
+        for(int j=i+1 ; j<n ; ++j)
+            if(isValidTransition(i,j))
+                longest = max(longest, 1 + getLongestStrChain(j));
+        return longestChainFrom[currentStr] = longest;
+    }
+public:
+    int longestStrChain(vector<string>& words) {
+        int longest = 0;
+        n = words.size();
+        allWords = words;
+        sort(allWords.begin(), allWords.end(),[](string &first, string &second){
+           return first.size() < second.size(); 
+        });
+        for(int i=0 ; i<n ; ++i)
+            longest = max(longest, getLongestStrChain(i));
+        return longest;
+    }
+};
