@@ -1,0 +1,35 @@
+class Solution {
+    vector<int> x = {-1,-1,-1,0,0,1,1,1};
+    vector<int> y = {-1,0,1,-1,1,-1,0,1};
+    bool isValid(int i, int j, int rows, int cols){
+        return (i>=0 && i<rows && j>=0 && j<cols);
+    }
+    int getLivingNeighborsCount(int i, int j, vector<vector<int>> &board){
+        int count = 0;
+        for(int z=0 ; z<8 ; ++z){
+            int neighbor_i = i + x[z];
+            int neighbor_j = j + y[z];
+            if(isValid(neighbor_i, neighbor_j, board.size(), board[0].size())
+               && board[neighbor_i][neighbor_j])
+                ++count;
+        }
+        return count;
+    }
+    bool getNewState(int i, int j, vector<vector<int>> &board, vector<vector<int>> &livingCount){
+        if(!board[i][j])
+            return livingCount[i][j] == 3;
+        return livingCount[i][j] > 1 && livingCount[i][j] < 4;
+    }
+public:
+    void gameOfLife(vector<vector<int>>& board) {
+        int rows = board.size();
+        int cols = board[0].size();
+        vector<vector<int>> livingCount(rows, vector<int>(cols));
+        for(int i=0 ; i<rows ; ++i)
+            for(int j=0 ; j<cols ; ++j)
+                livingCount[i][j] = getLivingNeighborsCount(i, j, board);
+        for(int i=0 ; i<rows ; ++i)
+            for(int j=0 ; j<cols ; ++j)
+                board[i][j] = getNewState(i, j, board, livingCount);
+    }
+};
