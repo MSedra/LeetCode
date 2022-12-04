@@ -1,0 +1,22 @@
+class Solution {
+    int getPivot(vector<int> &nums){
+        int low = 0;
+        int high = nums.size() - 1;
+        while(low < high){
+            int mid = low + (high - low) / 2 + 1;
+            if(nums[mid] > nums[0])
+                low = mid;
+            else 
+                high = mid - 1;
+        }
+        return low;
+    }
+public:
+    int search(vector<int>& nums, int target) {
+        int pivot = getPivot(nums);
+        int targetIndex = lower_bound(nums.begin(), nums.begin() + pivot + 1, target) - nums.begin();
+        if(targetIndex == pivot + 1 || nums[targetIndex] != target)
+            targetIndex = lower_bound(nums.begin() + pivot + 1, nums.end(), target) - nums.begin();
+        return (targetIndex == nums.size() || nums[targetIndex]!=target ? -1 : targetIndex);   
+    }
+};
