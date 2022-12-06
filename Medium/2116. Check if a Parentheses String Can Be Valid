@@ -1,0 +1,29 @@
+class Solution {
+public:
+    bool canBeValid(string s, string locked) {
+        if((int)s.size() & 1)
+            return false;
+        int unlocked = 0;
+        int balance = 0;
+        for(int i=0 ; i<s.size() ; ++i){
+            if(locked[i]=='0'){
+                ++unlocked;
+                continue;
+            }
+            balance += (s[i]=='('? 1 : -1);
+            if(balance < 0 && unlocked < abs(balance))
+                return false;
+        }
+        unlocked = balance = 0;
+        for(int i=s.size()-1 ; i > -1 ; --i){
+            if(locked[i]=='0'){
+                ++unlocked;
+                continue;
+            }
+            balance += (s[i]==')'? 1 : -1);
+            if(balance < 0 && unlocked < abs(balance))
+                return false;
+        }
+        return true;
+    }
+};
