@@ -1,0 +1,24 @@
+class Solution {
+    bool isValid(int rowMin, int rowMax, int colMin, int colMax, vector<vector<int>>& matrix){
+        int n = matrix.size();
+        vector<bool> exists(n+1);
+        for(int i=rowMin ; i<=rowMax ; ++i)
+            for(int j=colMin ; j<=colMax ; ++j)
+                if(exists[matrix[i][j]])
+                    return false;
+                else 
+                   exists[matrix[i][j]] = true;
+        return true; 
+    }
+public:
+    bool checkValid(vector<vector<int>>& matrix) {
+        int n = matrix.size();
+        for(int i=0 ; i<n ; ++i){
+            if(!isValid(i, i, 0, n-1, matrix))
+                return false;
+            if(!isValid(0, n-1, i, i, matrix))
+                return false;
+        }
+        return true;        
+    }
+};
