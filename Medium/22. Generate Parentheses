@@ -1,0 +1,23 @@
+class Solution {
+    void generateParenthesis(int notClosed, int canOpen, string &currentPossibility, vector<string> &allPossibilities){
+        if(!notClosed && !canOpen)
+            allPossibilities.push_back(currentPossibility);
+        if(canOpen){
+            currentPossibility.push_back('(');
+            generateParenthesis(notClosed+1, canOpen-1, currentPossibility, allPossibilities);
+            currentPossibility.pop_back();
+        }
+        if(notClosed){
+            currentPossibility.push_back(')');
+            generateParenthesis(notClosed-1, canOpen, currentPossibility, allPossibilities);
+            currentPossibility.pop_back();
+        }
+    }
+public:
+    vector<string> generateParenthesis(int n) {
+        string currentPossibility = "";
+        vector<string> allPossibilities;
+        generateParenthesis(0, n, currentPossibility, allPossibilities);
+        return allPossibilities;
+    }
+};
