@@ -1,0 +1,38 @@
+class Solution
+{
+public:
+  vector<bool> visited, instack;
+  vector<vector<int>> Graph;
+  vector<int> ans;
+  int dfs(int v)
+  {
+    visited[v] = instack[v] = true;
+    int res = 0;
+    for (auto vv : Graph[v])
+      if (!visited[vv])
+        res |= dfs(vv);
+      else if (instack[vv])
+        return 1;
+    instack[v] = false;
+    ans.push_back(v);
+    return res;
+  }
+  vector<int> findOrder(int numCourses, vector<vector<int>> &prerequisites)
+  {
+    bool res = true;
+    Graph.resize(numCourses);
+    visited.resize(numCourses);
+    instack.resize(numCourses);
+    for (auto vec : prerequisites)
+      Graph[vec[0]].push_back(vec[1]);
+    for (int i = 0; i < numCourses; ++i)
+      if (!visited[i] && dfs(i))
+      {
+        res = false;
+        break;
+      }
+    if(!res)
+        ans.clear();
+     return ans;
+  }
+};
