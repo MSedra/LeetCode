@@ -1,0 +1,32 @@
+class Solution {
+    const int MOD = (int)1e9+7;
+    int getOnesCount(string &s){
+        int onesCount = 0;
+        for(auto c : s)
+            onesCount += (c=='1');
+        return onesCount;    
+    }
+    long long getAllWays(int n){
+        return 1LL*n*(n-1)/2;
+    }
+public:
+    int numWays(string s) {
+        int onesCount = getOnesCount(s);
+        if(!onesCount)
+            return getAllWays(s.size()-1)%MOD;
+        if(onesCount%3)
+            return 0;
+        int groupCount = onesCount/3;
+        int prevIndex;
+        int oneOrder = 1;
+        long long totalWays = 1;
+        for(int i=0 ; i<s.size() ; ++i)
+            if(s[i]=='1'){
+                if(oneOrder == groupCount+1 || oneOrder == 2*groupCount+1)
+                    totalWays*=(i - prevIndex), totalWays%=MOD;
+                prevIndex = i;    
+                ++oneOrder;
+            }
+        return totalWays;    
+    }
+};
