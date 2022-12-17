@@ -1,0 +1,20 @@
+class Solution {
+public:
+    string addBinary(string a, string b) {
+        string a_plus_b;
+        int a_ind = a.size()-1;
+        int b_ind = b.size()-1;
+        bool carry = 0;
+        while(a_ind>-1 || b_ind>-1){
+            int sum = carry;
+            sum += (a_ind>-1 && a[a_ind--]=='1');
+            sum += (b_ind>-1 && b[b_ind--]=='1');
+            a_plus_b += ('0' + (sum&1));
+            carry = sum&(1<<1);
+        }
+        if(carry)
+            a_plus_b += '1';
+        reverse(a_plus_b.begin(), a_plus_b.end());
+        return a_plus_b;    
+    }
+};
