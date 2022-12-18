@@ -1,0 +1,22 @@
+class Solution {
+public:
+    void sortColors(vector<int>& nums) {
+        int wanted = 0, current_index = 0, wanted_index = 0;
+        while(current_index<nums.size()){
+            if(nums[current_index]==wanted){
+                ++current_index;
+                continue;
+            }
+            if(wanted_index<nums.size() && (wanted_index<current_index || nums[wanted_index]!=wanted)){
+                ++wanted_index;
+                continue;
+            }
+            if(wanted_index==nums.size()){
+                ++wanted;
+                wanted_index = 0;
+                continue;
+            }
+            swap(nums[current_index], nums[wanted_index]);
+        }
+    }
+};
