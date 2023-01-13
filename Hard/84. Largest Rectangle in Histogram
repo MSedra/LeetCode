@@ -1,0 +1,27 @@
+class Solution {
+public:
+    int largestRectangleArea(vector<int>& heights) {
+        int height, index, prev_processed_ind, next_processed_ind, max_rectangle = 0;
+        std::vector<pair<int,int>> height_ind;
+        std::set<int> processed_indices;
+        for(int i=0 ; i<heights.size() ; ++i)
+            height_ind.push_back({heights[i],i});
+        sort(height_ind.begin(), height_ind.end());
+        for(auto height_ind_current : height_ind){
+            tie(height, index) = height_ind_current;
+            prev_processed_ind = -1;
+            next_processed_ind = heights.size();
+            std::set<int>::iterator it = processed_indices.upper_bound(index);
+            if(it!=processed_indices.end())
+                next_processed_ind = *it;
+            if(it!=processed_indices.begin()){
+                --it;
+                prev_processed_ind = *it;
+            }
+            int current_rectangle = height * (next_processed_ind - prev_processed_ind - 1);
+            max_rectangle = max(max_rectangle, current_rectangle);
+            processed_indices.insert(index);
+        }    
+        return max_rectangle;
+    }
+};
