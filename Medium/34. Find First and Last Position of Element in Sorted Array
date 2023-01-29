@@ -29,6 +29,10 @@ class Solution {
     }
 public:
     vector<int> searchRange(vector<int>& nums, int target) {
-        return {binary_search_first(nums, target), binary_search_last(nums, target)};
+        int first = binary_search_first(nums, target);
+        int last = -1;
+        if(first!=-1)
+            last = binary_search_last(nums, target);
+        return {first, last};
     }
 };
