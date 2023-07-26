@@ -1,0 +1,25 @@
+class Solution {
+    bool isValid(vector<int> &dist, int speed, double hour){
+        double accTime = 0;
+        for(int i=0 ; i<dist.size() ; ++i){
+            accTime = ceil(accTime);
+            accTime += 1.0 * dist[i] / speed;
+        }
+        return accTime <= hour;
+    }
+public:
+    int minSpeedOnTime(vector<int>& dist, double hour) {
+        double minValid = dist.size() - 0.99;
+        if(hour < minValid)
+            return -1;
+        int l = 1, r = 100 * *max_element(dist.begin(), dist.end());
+        while(l!=r){
+            int mid = l + (r-l) / 2;
+            if(isValid(dist, mid, hour))
+                r = mid;
+            else 
+                l = mid + 1;
+        }
+        return l;
+    }
+};
