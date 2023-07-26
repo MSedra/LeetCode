@@ -1,0 +1,15 @@
+class Solution {
+    const int charsCount = 26;
+public:
+    int minSteps(string s, string t) {
+        vector<int> charCountDiff(charsCount);
+        for(auto ch : s)
+            --charCountDiff[ch - 'a'];
+        for(auto ch : t)
+            ++charCountDiff[ch - 'a'];
+        int minSteps = 0;
+        for(auto diff : charCountDiff)
+            minSteps += (diff > 0 ? diff : 0);
+        return minSteps;
+    }
+};
