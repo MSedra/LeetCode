@@ -1,0 +1,19 @@
+class Solution {
+public:
+    int numDecodings(string s) {
+        int length = s.size();
+        int beforePrev = 1;
+        int prev = s[0]!='0';
+        for(int i=1 ; i<length ; ++i){
+            int current = 0;
+            if(s[i]!='0')
+                current += prev;
+            string currentCode = s.substr(i-1,2);
+            if(currentCode>="10" && currentCode<="26")
+                current += beforePrev;
+            beforePrev = prev;
+            prev = current;
+        }
+        return prev;
+    }
+};
