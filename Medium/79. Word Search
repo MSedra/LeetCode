@@ -1,0 +1,29 @@
+class Solution {
+    bool exists(int row, int col, int &n, int &m, vector<vector<char>> &board, string &word, int strInd){
+        if(strInd == word.size() - 1)
+            return true;
+        char cell = board[row][col];
+        board[row][col] = '#';
+        for(auto hor : {0, -1, 1})
+            for(auto ver : {0, -1, 1}){
+                if(abs(hor + ver) != 1)
+                    continue;
+                int newRow = row + hor;
+                int newCol = col + ver;
+                if(newRow>=0 && newRow<n && newCol>=0 && newCol<m && board[newRow][newCol]==word[strInd + 1] && exists(newRow, newCol, n, m, board, word, strInd + 1))
+                return true;
+            }
+        board[row][col] = cell;
+        return false;        
+    }
+public:
+    bool exist(vector<vector<char>>& board, string word) {
+        int n = board.size();
+        int m = board[0].size();
+        for(int i=0 ; i<n ; ++i)
+            for(int j=0 ; j<m ; ++j)
+                if(board[i]m,[j]==word[0] && exists(i, j, n,  board, word, 0))
+                    return true;
+        return false;
+    }
+};
