@@ -1,0 +1,17 @@
+class Solution {
+public:
+    void nextPermutation(vector<int>& nums) {
+        int tbcInd = (int)nums.size() - 2;
+        while(tbcInd>=0 && nums[tbcInd] >= nums[tbcInd + 1])
+            --tbcInd;
+        if(tbcInd != -1){
+            int tbswInd = tbcInd + 1;
+            while(tbswInd < (int)nums.size() && nums[tbswInd] > nums[tbcInd])
+                ++tbswInd;
+            swap(nums[tbcInd], nums[tbswInd-1]);
+        }
+        int iterationCount = ((int)nums.size() - 1 - tbcInd)/2;
+        for(int i=tbcInd + 1 ; iterationCount-- ; ++i)
+            swap(nums[i], nums[(int)nums.size() - (i - tbcInd)]);
+    }
+};
