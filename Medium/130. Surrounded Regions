@@ -1,0 +1,36 @@
+class Solution {
+    void dfs(int row, int col, const int &n, const int &m, vector<vector<char>> &board){
+        board[row][col] = 'N';
+        for(int xDir : {0, 1, -1})
+            for(int yDir : {0, 1, -1})
+                if(abs(xDir + yDir) == 1){
+                    int newRow = row + xDir;
+                    int newCol = col + yDir;
+                    if(newRow>=0 && newRow<n && newCol>=0 && newCol<m && board[newRow][newCol]=='O')
+                        dfs(newRow, newCol, n, m, board);
+                }
+    }
+public:
+    void solve(vector<vector<char>>& board) {
+        int n = board.size();
+        int m = board[0].size();
+        for(int i=0 ; i<n ; ++i){
+            if(board[i][0]=='O')
+                dfs(i, 0, n, m, board);
+            if(board[i][m-1]=='O')
+                dfs(i, m-1, n, m, board);
+        }
+        for(int i=0 ; i<m ; ++i){
+            if(board[0][i]=='O')
+                dfs(0, i, n, m, board);
+            if(board[n-1][i]=='O')
+                dfs(n-1, i, n, m, board);
+        }
+        for(int i=0 ; i<n ; ++i)
+            for(int j=0 ; j<m ; ++j)
+                if(board[i][j]=='O')
+                    board[i][j]='X';
+                else if(board[i][j]=='N')
+                    board[i][j]='O';
+    }
+};
